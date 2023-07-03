@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Upload Product</title>
+
+	<link rel="stylesheet" href="/webjars/bootstrap/5.1.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+
+	<script src="/webjars/bootstrap/5.1.1/js/bootstrap.min.js" defer></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.js" defer></script>
+	<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js" defer></script>
+	<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js" defer></script>
+	<script src="/script/script.js" defer></script>
+</head>
+
+<body>
+	<div class="container mt-3">
+
+		<h3 th:text="${title}"></h3>
+		<a class="btn btn-primary mt-5 mb-3" th:href="@{/upload-product/add}" role="button">Upload File</a>
+
+		<table class="table mt-3 table-bordered table-datatable table-list-upload">
+			<thead>
+				<tr>
+					<th scope="col">No</th>
+					<th scope="col">Filename</th>
+					<th scope="col">Upload Date</th>
+					<th scope="col">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="file, i  : ${listFileUpload}">
+					<td th:text="${i.index+1}"></td>
+					<td th:text="${file.filename}"></td>
+					<td th:text="${file.createdDate}"></td>
+					<td><a class="btn btn-success" th:href="@{/upload-product/list-product(id=${file.id})}"
+							role="button">View Product</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div th:replace="modal-info :: modal-info"></div>
+</body>
+
+</html>

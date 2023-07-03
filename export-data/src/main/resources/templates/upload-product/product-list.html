@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Upload Product</title>
+
+	<link rel="stylesheet" href="/webjars/bootstrap/5.1.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+
+	<script src="/webjars/bootstrap/5.1.1/js/bootstrap.min.js" defer></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.js" defer></script>
+	<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js" defer></script>
+	<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js" defer></script>
+	<script src="/script/script.js" defer></script>
+</head>
+
+<body>
+	<div class="container mt-3">
+
+		<h3 th:text="${title}"></h3>
+		<a class="btn btn-danger mt-5 mb-3" th:href="@{/upload-product/list}" role="button">Back</a>
+		<div class="row mb-1">
+			<div class="col-2">
+				Filename :
+			</div>
+			<div class="col-10 text-start">
+				<p th:text="${fileUploadDTO.filename}"></p>
+			</div>
+		</div>
+
+		<table class="table table-bordered table-datatable table-list-product">
+			<thead>
+				<tr>
+					<th scope="col">Product Code</th>
+					<th scope="col">Product Name</th>
+					<th scope="col">Category</th>
+					<th scope="col">Qty</th>
+					<th scope="col">Price</th>
+					<th scope="col">Uom</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="data : ${listProduct}">
+					<td th:text="${data.code}"></td>
+					<td th:text="${data.name}"></td>
+					<td th:text="${data.category}"></td>
+					<td class="text-end" th:text="${data.qty}"></td>
+					<td class="priceLabel text-end" th:text="${data.price}"></td>
+					<td th:text="${data.uom}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div th:replace="modal-info :: modal-info"></div>
+</body>
+
+</html>

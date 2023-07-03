@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Upload Product</title>
+
+	<link rel="stylesheet" href="/webjars/bootstrap/5.1.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+
+	<script src="/webjars/bootstrap/5.1.1/js/bootstrap.min.js" defer></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.js" defer></script>
+	<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js" defer></script>
+	<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js" defer></script>
+	<script src="/script/script.js" defer></script>
+</head>
+
+<body>
+	<div class="container mt-3">
+		<h3 th:text="${title}"></h3>
+		<a class="btn btn-danger mt-5 mb-3" th:href="@{/upload-product/list}" role="button">Cancel</a>
+		<form th:action=@{/upload-product/upload} method="post" enctype="multipart/form-data">
+			<div class="input-group mb-3">
+				<input type="submit" class="input-group-text" value="Upload" />
+				<input type="file" name="file" class="form-control" id="inputGroupFile01" />
+			</div>
+		</form>
+
+		<form th:action=@{/upload-product/save} method="POST" th:object="${fileUpload}" th:if="${null != fileUpload}"
+			class="mt-3">
+			<div class="mb-3">
+				<label for="input-filename" class="form-label">Filename</label>
+				<input type="text" readonly="true" class="form-control" id="input-filename" th:field="*{filename}">
+			</div>
+			<table class="table table-bordered table-product-form">
+				<thead>
+					<tr>
+						<th scope="col">Product Code</th>
+						<th scope="col">Product Name</th>
+						<th scope="col">Category</th>
+						<th scope="col">Qty</th>
+						<th scope="col">Price</th>
+						<th scope="col">Uom</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="product, i  : ${fileUpload.listProductDTO}">
+						<input type="hidden" class="form-control" th:field="*{listProductDTO[__${i.index}__].productId}" />					
+						<input type="hidden" class="form-control" th:field="*{listProductDTO[__${i.index}__].code}" />
+						<input type="hidden" class="form-control" th:field="*{listProductDTO[__${i.index}__].name}">
+						<input type="hidden" class="form-control"
+							th:field="*{listProductDTO[__${i.index}__].categoryId}">
+						<input type="hidden" class="form-control" th:field="*{listProductDTO[__${i.index}__].qty}">
+						<input type="hidden" class="form-control" th:field="*{listProductDTO[__${i.index}__].price}">
+						<input type="hidden" class="form-control" th:field="*{listProductDTO[__${i.index}__].uomId}">
+
+						<td><span th:text="*{listProductDTO[__${i.index}__].code}"></span></td>
+						<td><span th:text="*{listProductDTO[__${i.index}__].name}"></span></td>
+						<td><span th:text="*{listProductDTO[__${i.index}__].category}"></span></td>
+						<td class="text-end"><span th:text="*{listProductDTO[__${i.index}__].qty}"></span></td>
+						<td class="text-end"><span th:text="*{listProductDTO[__${i.index}__].price}"
+								class="priceLabel"></span></td>
+						<td><span th:text="*{listProductDTO[__${i.index}__].uom}"></span></td>
+					</tr>
+				</tbody>
+			</table>
+
+			<button class="btn btn-success" type="submit">Save</button>
+		</form>
+	</div>
+
+	<div th:replace="modal-info :: modal-info"></div>
+</body>
+
+</html>
